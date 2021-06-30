@@ -3,10 +3,10 @@
 , "version": "0.2.6"
 , "title": "Modern CV, Resume and Portfolio website"
 , "description": "Best-in-Class website template for modern CV, Resume and Portfolio. Easy customizable static website with simple smart easy-to-use builder."
-, "homepage": "https://github.com/tbaltrushaitis/cv"
+, "homepage": "https://github.com/emilioego/cv"
 , "license": "MIT"
 , "authors": [
-    "tbaltrushaitis@gmail.com"
+    "emilioego@hotmail.com"
   ]
 , "private": false
 , "main": ""

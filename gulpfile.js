@@ -68,6 +68,7 @@ ME.VERSION = fs.existsSync('./VERSION') ? fs.readFileSync('./VERSION', ME.pkg.op
 ME.COMMIT  = fs.existsSync('./COMMIT') ? fs.readFileSync('./COMMIT', ME.pkg.options.file).trim() : 'COMMIT_UNKNOWN';
 
 var BUILD_FILE = path.join(ME.WD, `BUILD-${ME.VERSION}`);
+console.log(BUILD_FILE)
 ME.CNTR = fs.existsSync(`${BUILD_FILE}`)
             ? fs.readFileSync(`${BUILD_FILE}`, ME.pkg.options.file).trim()
             : 'tmp';

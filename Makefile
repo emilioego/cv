@@ -17,8 +17,8 @@ TO_NULL = 2>&1 >/dev/null
 ##  ------------------------------------------------------------------------  ##
 
 ##  ------------------------------------------------------------------------  ##
-$(shell [ -f ./.bowerrc ] || cp -prfu config/.bowerrc ./);
-$(shell [ -f ./.npmrc ] || cp -prfu config/.npmrc ./);
+$(shell [ -f ./.bowerrc ] || cp -prf config/.bowerrc ./);
+$(shell [ -f ./.npmrc ] || cp -prf config/.npmrc ./);
 ##  ------------------------------------------------------------------------  ##
 
 APP_NAME := cv
@@ -58,8 +58,6 @@ include $(BD)/Colors
 ##  ------------------------------------------------------------------------  ##
 
 FMP := ffmpeg -hide_banner -y -loglevel "error" -stats
-# FIGLET := figlet -t -f standard -f border -f gay -S
-FIGLET := figlet-toilet -t -k -f standard -F border -F gay
 
 DAT = [$(Gray)$(DT)$(NC)]
 BEGIN = $(Yellow)$(On_Blue)BEGIN$(NC) TARGET
@@ -208,7 +206,6 @@ print-names: ;
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 video: print-names ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(BEGIN): $(TARG)" ;
 	# @ $(foreach fbase, $(BASE_NAMES), $(FMP) -i "$(DIR_IMGS)/$(fbase).gif" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p -y "$(DIR_IMGS)/$(fbase).mp4" -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" ;)
 	$(foreach fbase, $(BASE_NAMES), $(FMP) -i "$(DIR_SRC)/$(DIR_IMGS)/$(fbase).gif" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -y "$(DIR_BUILD)/$(DIR_IMGS)/$(fbase).mp4" -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" ;)
@@ -224,7 +221,6 @@ video: print-names ;
 PHONY += pre-update update
 
 setup-deps: ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(BEGIN): $(TARG)"
 	npm i
 	bower i --allow-root --production
@@ -232,7 +228,6 @@ setup-deps: ;
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 setup: setup-deps ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(BEGIN): $(TARG)"
 	touch ./setup
 	@ echo "$(DAT) $(FINE): $(TARG)"
@@ -243,7 +238,6 @@ pre-build: ;
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 build: setup ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(BEGIN): $(TARG)"
 	export NODE_ENV="${APP_ENV}"; npm run bower
 	cd ${WD} && cp -prf ${DIR_SRC}/* ${DIR_BUILD}/
@@ -257,7 +251,6 @@ pre-dist: ;
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 dist: build ;
-	$(FIGLET) "$(STG)"
 	# @ export NODE_ENV="production"; npm run dist
 	cd ${WD} && mkdir -p ${DST}
 	cd ${WD} && cp -prf ${BLD}/* ${DST}/
@@ -267,13 +260,11 @@ dist: build ;
 	@ echo "$(DAT) $(FINE): $(TARG)"
 
 pre-deploy: ;
-	# $(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(BEGIN): $(TARG)"
 	rm -vf deploy
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 deploy: dist video ;
-	$(FIGLET) "$(STG)"
 	# @ echo "$(DAT) $(BEGIN): $(TARG)"
 	cd ${WD} && cp -prv ${DST}/* ${WEB}/
 	export NODE_ENV="${APP_ENV}"; npm run deploy
@@ -288,7 +279,6 @@ pre-update: ;
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 update: pre-update setup ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(FINE): $(TARG)"
 
 ##  ------------------------------------------------------------------------  ##
@@ -296,19 +286,15 @@ update: pre-update setup ;
 PHONY += rebuild redeploy rb rd
 
 rebuild: pre-build build pre-dist dist ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 redeploy: pre-deploy rebuild deploy ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(DONE): $(TARG)"
 
 rb: rebuild ;
-	# $(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(FINE): $(TARG)"
 
 rd: redeploy ;
-	# $(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(FINE): $(TARG)"
 
 
@@ -341,7 +327,6 @@ dev-setup: clean-deps setup banner cycle-dev ;
 # run: pre-build pre-dist pre-deploy cycle deploy help banner ;
 	@ echo "$(DAT) $(FINE): $(TARG)"
 run: pre-build pre-dist pre-deploy build dist deploy banner ;
-	$(FIGLET) "$(STG)"
 	@ echo "$(DAT) $(FINE): $(TARG)"
 
 watch:
